@@ -16,7 +16,7 @@ public class SeekController : MonoBehaviour
         {
             mTimer = mTimeMax;
             int randX = Random.Range(-50, 50);
-            int randY = Random.Range(-40, 40);
+            int randY = Random.Range(-30, 30);
             mSeek.mTarget = new Vector2(randX, randY);
         }
         mTimer -= Time.deltaTime;

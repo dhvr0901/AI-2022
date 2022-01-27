@@ -19,10 +19,11 @@ public class AI : MonoBehaviour
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
-        mBody.Velocity = mBehavior.getSteerDirection() * MoveMax;
-        transform.LookAt(mBody.Velocity);
+        Vector3 direction = mBehavior.getSteerDirection();
+        mBody.Velocity = direction * MoveMax;
+        transform.LookAt(gameObject.transform.position + new Vector3 (mBody.Velocity.x, mBody.Velocity.y, 0.0f));
         //Debug.Log(mBody.Velocity);
     }
 }
