@@ -22,6 +22,7 @@ public class AI : MonoBehaviour
     void LateUpdate()
     {
         mBody.Velocity = mBehavior.getSteerDirection() * MoveMax;
-        Debug.Log(mBody.Velocity);
+        transform.LookAt(mBody.Velocity);
+        //Debug.Log(mBody.Velocity);
     }
 }
