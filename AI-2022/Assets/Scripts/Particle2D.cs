@@ -12,7 +12,7 @@ public class Particle2D : MonoBehaviour
     public float RestitutionCo = 1f;
     public Vector2 Velocity = new Vector2(0, 0);
     [SerializeField]
-    private Vector2 Acceleration = new Vector2(0, 0.0f);
+    public Vector2 Acceleration = new Vector2(0, 0.0f);
     [SerializeField]
     private Vector2 AdditiveAcceleration = new Vector2(0, 0.0f);
     [SerializeField]

@@ -8,10 +8,10 @@ public class AI : MonoBehaviour
     Particle2D mBody;
     [SerializeField]
     AIBehavior mBehavior;
+    //[SerializeField]
+    //bool UsesAccel = false;
     [SerializeField]
-    bool UsesAccel = false;
-    [SerializeField]
-    float MoveMax = 0.0f;
+    float BehaviorForce = 0.0f;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +22,7 @@ public class AI : MonoBehaviour
     void Update()
     {
         Vector3 direction = mBehavior.getSteerDirection();
-        mBody.Velocity = direction * MoveMax;
+        mBody.Acceleration = (direction * BehaviorForce);
         transform.LookAt(gameObject.transform.position + new Vector3 (mBody.Velocity.x, mBody.Velocity.y, 0.0f));
         //Debug.Log(mBody.Velocity);
     }
