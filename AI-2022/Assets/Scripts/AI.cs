@@ -7,6 +7,8 @@ public class AI : MonoBehaviour
     [SerializeField]
     Particle2D mBody;
     [SerializeField]
+    Collider mCol;
+    [SerializeField]
     AIBehavior mBehavior;
     //[SerializeField]
     //bool UsesAccel = false;
@@ -25,5 +27,14 @@ public class AI : MonoBehaviour
         mBody.Acceleration = (direction * BehaviorForce);
         transform.LookAt(gameObject.transform.position + new Vector3 (mBody.Velocity.x, mBody.Velocity.y, 0.0f));
         //Debug.Log(mBody.Velocity);
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("hit: " + other.gameObject.tag);
+        //if(other.gameObject.tag == "WALL")
+        //{
+        //  increment count
+        //}
     }
 }

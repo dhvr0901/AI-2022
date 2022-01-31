@@ -51,7 +51,6 @@ public class CollisionAvoidance : AIBehavior
         //draw Middle Ray
         if (Mid)
         {
-            Debug.Log("ahead");
             Debug.DrawLine(Origin, Origin + DirectionMid.normalized, Color.black, Time.deltaTime, false);
         }
         else
@@ -63,7 +62,6 @@ public class CollisionAvoidance : AIBehavior
         //draw Left Ray
         if (Left)
         {
-            Debug.Log("left");
             Debug.DrawLine(Origin, Origin + DirectionLeft/*.normalized * HitLeft.distance*/, Color.green, Time.deltaTime, false);
         }
         else
@@ -74,7 +72,6 @@ public class CollisionAvoidance : AIBehavior
         //draw Right Ray
         if (Right)
         {
-            Debug.Log("left");
             Debug.DrawLine(Origin, Origin + DirectionRight/*.normalized * HitRight.distance*/, Color.yellow, Time.deltaTime, false);
         }
         else
@@ -118,15 +115,15 @@ public class CollisionAvoidance : AIBehavior
             //apply avoidance
             if(moveRight)
             {
-                toGo = new Vector2(toGo.y, -toGo.x) * mStrafePower - toGo * mAvoidPower;
+                //toGo = new Vector2(toGo.y, -toGo.x) * mStrafePower - toGo * mAvoidPower;
 
-                Debug.Log("redirect right triggered");
+                toGo = new Vector2(toGo.y, -toGo.x) /* (2 / HitLeft.distance)*/ * mStrafePower - toGo * HitLeft.distance * mAvoidPower;
             }
             else
             {
-                toGo = new Vector2(toGo.y, -toGo.x) * -mStrafePower - toGo * mAvoidPower;
+                //toGo = new Vector2(toGo.y, -toGo.x) * -mStrafePower - toGo * mAvoidPower;
 
-                Debug.Log("redirect left triggered");
+                toGo = new Vector2(toGo.y, -toGo.x) /* (2 / HitRight.distance)*/ * -mStrafePower - toGo * HitRight.distance * mAvoidPower;
             }
         }
         else

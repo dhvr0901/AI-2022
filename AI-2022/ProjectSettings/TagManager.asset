@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PhysicsRegistry
   - Integrator
+  - WALL
   layers:
   - Default
   - TransparentFX
