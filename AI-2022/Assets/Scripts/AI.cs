@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AI : MonoBehaviour
 {
+    [SerializeField]
+    private UnityEvent mScore;
     [SerializeField]
     Particle2D mBody;
     [SerializeField]
@@ -32,9 +35,7 @@ public class AI : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         Debug.Log("hit: " + other.gameObject.tag);
-        //if(other.gameObject.tag == "WALL")
-        //{
-        //  increment count
-        //}
+        if(other.gameObject.tag == "WALL")
+            mScore.Invoke();
     }
 }

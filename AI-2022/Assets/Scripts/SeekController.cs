@@ -5,7 +5,9 @@ using UnityEngine;
 public class SeekController : MonoBehaviour
 {
     [SerializeField]
-    Seek mSeek;
+    List<Seek> mSeeks;
+    [SerializeField]
+    Camera mCam;
     //[SerializeField]
     //int mTimeMax = 20;
     //[SerializeField]
@@ -36,7 +38,12 @@ public class SeekController : MonoBehaviour
         }
         mTimer -= Time.deltaTime;*/
 
-        mSeek.mTarget = gameObject.transform.position;
+        gameObject.transform.position = mCam.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 30.0f));
+
+        foreach (Seek mSeek in mSeeks)
+        {
+            mSeek.mTarget = gameObject.transform.position;
+        }
     }
 
     public void OnTriggerStay(Collider other)

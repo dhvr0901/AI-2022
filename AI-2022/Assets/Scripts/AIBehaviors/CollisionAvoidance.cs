@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class CollisionAvoidance : AIBehavior
 {
+    
     [SerializeField]
     public AIBehavior mBehavior;
     [SerializeField]
     private Particle2D mHost;
     [SerializeField]
-    float mAvoidPower;
-    [SerializeField]
-    float mStrafePower;
-    [SerializeField]
     float mRayDistance = 0.0f;
+    [SerializeField]
+    float mStallThresh;
+    [SerializeField]
+    float mStallMax;
+    private float mStallTime = 0.0f;
+    bool mStall = false;
+    private Vector3 lastLocation;
+    private Vector3 lastClosest;
+    private Vector3 xtraPush = new Vector3();
     [SerializeField]
     float mFlankAngle;
 
@@ -28,7 +34,55 @@ public class CollisionAvoidance : AIBehavior
     {
         Mid = Physics.Raycast(Origin, DirectionMid, out Hit, mRayDistance);
         Left = Physics.Raycast(Origin, DirectionLeft, out HitLeft, mRayDistance);
+        if(!Left)
+        {
+            Left = Physics.Raycast(Origin, new Vector2(-DirectionMid.y, DirectionMid.x), out HitLeft, mRayDistance);
+        }
         Right = Physics.Raycast(Origin, DirectionRight, out HitRight, mRayDistance);
+        if (!Right)
+        {
+            Right = Physics.Raycast(Origin, new Vector2(DirectionMid.y, -DirectionMid.x), out HitRight, mRayDistance);
+        }
+
+        Vector3 temp = transform.position - lastLocation;
+        
+        if (temp.magnitude < mStallThresh*Time.deltaTime)
+        {
+            mStallTime += Time.fixedDeltaTime;
+        }
+        if(mStallTime > mStallMax)
+        {
+            mStall = true;
+        }
+        else if(mStallTime < 0)
+        {
+            mStall = false;
+        }
+        if(mStall)
+        {
+            //fix stalling
+            if(Mid)
+            { lastClosest = Hit.point; }
+            if(Left)
+            {
+                lastClosest = (lastClosest - transform.position).magnitude > (HitLeft.point - transform.position).magnitude
+                      ? HitLeft.point : lastClosest;
+            }
+            if (Right)
+            {
+                lastClosest = (lastClosest - transform.position).magnitude > (HitRight.point - transform.position).magnitude
+                      ? HitRight.point : lastClosest;
+            }
+
+            xtraPush = transform.position - lastClosest;
+            mStallTime -= Time.fixedDeltaTime;
+        }
+        else
+        {
+            lastClosest = new Vector3();
+            xtraPush = new Vector3();
+        }
+
     }
 
     //-1 for left, 1 for right
@@ -36,6 +90,8 @@ public class CollisionAvoidance : AIBehavior
 
     public void Start()
     {
+        lastLocation = transform.position;
+
         mHost = gameObject.GetComponent<Particle2D>();
         LeftAngle = Quaternion.Euler(0, 0, mFlankAngle);
         RightAngle = Quaternion.Euler(0, 0, -mFlankAngle);
@@ -62,83 +118,46 @@ public class CollisionAvoidance : AIBehavior
         //draw Left Ray
         if (Left)
         {
-            Debug.DrawLine(Origin, Origin + DirectionLeft/*.normalized * HitLeft.distance*/, Color.green, Time.deltaTime, false);
+            Debug.DrawRay(Origin, DirectionLeft/*.normalized * HitLeft.distance*/, Color.green, Time.deltaTime, false);
+            Debug.DrawRay(Origin, new Vector2(-DirectionMid.y, DirectionMid.x), Color.black, Time.deltaTime, false);
         }
         else
         {
-            Debug.DrawLine(Origin, Origin + DirectionLeft, Color.blue, Time.deltaTime, false);
+            Debug.DrawRay(Origin, DirectionLeft, Color.blue, Time.deltaTime, false);
+            Debug.DrawRay(Origin, new Vector2(-DirectionMid.y, DirectionMid.x), Color.white, Time.deltaTime, false);
         }
 
         //draw Right Ray
         if (Right)
         {
-            Debug.DrawLine(Origin, Origin + DirectionRight/*.normalized * HitRight.distance*/, Color.yellow, Time.deltaTime, false);
+            Debug.DrawRay(Origin, DirectionRight/*.normalized * HitRight.distance*/, Color.yellow, Time.deltaTime, false);
+            Debug.DrawRay(Origin, new Vector2(DirectionMid.y, -DirectionMid.x), Color.black, Time.deltaTime, false);
         }
         else
         {
-            Debug.DrawLine(Origin, Origin + DirectionRight, Color.red, Time.deltaTime, false);
+            Debug.DrawRay(Origin, DirectionRight, Color.red, Time.deltaTime, false);
+            Debug.DrawRay(Origin, new Vector2(DirectionMid.y, -DirectionMid.x), Color.white, Time.deltaTime, false);
         }
 
         Vector2 tempDir = toGo;
         //calculate avoidance
-        if (Left || Right)
+        if (Left || Right || Mid)
         {
-            //determine rotation direction
-            bool moveRight = false;
+            float tempMagnitude = toGo.magnitude;
             if (Left)
             {
-                if (Right)
-                {
-                    if(mLastAvoid != 0)
-                    {
-                        if(mLastAvoid > 0)
-                        {
-                            moveRight = true;
-                        }
-                    }
-                    else if (Random.Range(0, 1) == 0)
-                    {
-                        moveRight = true;
-                        mLastAvoid = 1;
-                    }
-                }
-                else
-                {
-                    moveRight = true;
-                    mLastAvoid = 1;
-                }
+                toGo += tempMagnitude * new Vector2(HitLeft.normal.x, HitLeft.normal.y);
             }
-            else if(Right)
+            if (Right)
             {
-                mLastAvoid = -1;
+                toGo += tempMagnitude * new Vector2(HitRight.normal.x, HitRight.normal.y);
             }
-
-            
-            //apply avoidance
-            if(moveRight)
+            if (Mid)
             {
-                //toGo = new Vector2(toGo.y, -toGo.x) * mStrafePower - toGo * mAvoidPower;
-
-                toGo = new Vector2(toGo.y, -toGo.x) /* (2 / HitLeft.distance)*/ * mStrafePower;
-            }
-            else
-            {
-                //toGo = new Vector2(toGo.y, -toGo.x) * -mStrafePower - toGo * mAvoidPower;
-
-                toGo = new Vector2(toGo.y, -toGo.x) /* (2 / HitRight.distance)*/ * -mStrafePower;
+                toGo += tempMagnitude * new Vector2(Hit.normal.x, Hit.normal.y);
             }
         }
-        else
-        {
-            mLastAvoid = 0;
-        }
-
-
-        if (Mid)
-        {
-            toGo -= toGo * (2 / Hit.distance) * mAvoidPower;
-            Debug.Log("push awar");
-        }
+        toGo += new Vector2(xtraPush.x, xtraPush.y);
         return toGo.normalized;
     }
 
