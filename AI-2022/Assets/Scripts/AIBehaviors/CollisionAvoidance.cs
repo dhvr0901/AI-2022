@@ -79,6 +79,7 @@ public class CollisionAvoidance : AIBehavior
             Debug.DrawLine(Origin, Origin + DirectionRight, Color.red, Time.deltaTime, false);
         }
 
+        Vector2 tempDir = toGo;
         //calculate avoidance
         if (Left || Right)
         {
@@ -107,28 +108,36 @@ public class CollisionAvoidance : AIBehavior
                     mLastAvoid = 1;
                 }
             }
-            else
+            else if(Right)
             {
                 mLastAvoid = -1;
             }
 
+            
             //apply avoidance
             if(moveRight)
             {
                 //toGo = new Vector2(toGo.y, -toGo.x) * mStrafePower - toGo * mAvoidPower;
 
-                toGo = new Vector2(toGo.y, -toGo.x) /* (2 / HitLeft.distance)*/ * mStrafePower - toGo * HitLeft.distance * mAvoidPower;
+                toGo = new Vector2(toGo.y, -toGo.x) /* (2 / HitLeft.distance)*/ * mStrafePower;
             }
             else
             {
                 //toGo = new Vector2(toGo.y, -toGo.x) * -mStrafePower - toGo * mAvoidPower;
 
-                toGo = new Vector2(toGo.y, -toGo.x) /* (2 / HitRight.distance)*/ * -mStrafePower - toGo * HitRight.distance * mAvoidPower;
+                toGo = new Vector2(toGo.y, -toGo.x) /* (2 / HitRight.distance)*/ * -mStrafePower;
             }
         }
         else
         {
             mLastAvoid = 0;
+        }
+
+
+        if (Mid)
+        {
+            toGo -= toGo * (2 / Hit.distance) * mAvoidPower;
+            Debug.Log("push awar");
         }
         return toGo.normalized;
     }

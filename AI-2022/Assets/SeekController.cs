@@ -6,17 +6,17 @@ public class SeekController : MonoBehaviour
 {
     [SerializeField]
     Seek mSeek;
-    [SerializeField]
-    int mTimeMax = 20;
-    [SerializeField]
-    Collider buffer;
-    bool inside;
+    //[SerializeField]
+    //int mTimeMax = 20;
+    //[SerializeField]
+    //Collider buffer;
+    //bool inside;
 
-    float mTimer = 0;
+    //float mTimer = 0;
 
     public void Update()
     {
-        if(mTimer <=0.0f)
+        /*if(mTimer <=0.0f)
         {
             mTimer = mTimeMax;
             //repeat if collider detects object
@@ -34,14 +34,16 @@ public class SeekController : MonoBehaviour
             mSeek.mTarget = new Vector2(randX, randY);
             inside = false;
         }
-        mTimer -= Time.deltaTime;
+        mTimer -= Time.deltaTime;*/
+
+        mSeek.mTarget = gameObject.transform.position;
     }
 
     public void OnTriggerStay(Collider other)
     {
         if (other.gameObject.tag != "Player")
         {
-            inside = true;
+            //inside = true;
             //Debug.Log("relocating");
         }
     }
