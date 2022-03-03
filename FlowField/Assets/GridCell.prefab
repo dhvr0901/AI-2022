@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1147913249334132556}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DirectionMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4707795180364116310}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Visualization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 6590274675781151284}
   m_Layer: 0
   m_Name: GridCell
-  m_TagString: Untagged
+  m_TagString: Node
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,6 +119,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  active: {fileID: 2100000, guid: 33cbef64a8c14304693ddaa8bc068187, type: 2}
+  inactive: {fileID: 2100000, guid: 8bed9d22fb5fcf04ebd316cb3dd190dc, type: 2}
 --- !u!65 &6590274675781151284
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -143,7 +145,7 @@ GameObject:
   - component: {fileID: 4707795180963320242}
   - component: {fileID: 4707795180963320240}
   - component: {fileID: 4707795180963320241}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CellArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +224,7 @@ GameObject:
   - component: {fileID: 4707795180966583444}
   - component: {fileID: 4707795180966583442}
   - component: {fileID: 4707795180966583443}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CenterMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +303,7 @@ GameObject:
   - component: {fileID: 7630957368956530992}
   - component: {fileID: 7100244522824344970}
   - component: {fileID: 304645163517158575}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

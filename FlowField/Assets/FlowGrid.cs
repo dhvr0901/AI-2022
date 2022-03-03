@@ -13,9 +13,14 @@ public class FlowGrid : MonoBehaviour
         {
             order = new List<Node>();
             order.Add(toAdd);
+
+            //used to account for diagonals being longer from center to corner
+            directions = new List<int>();
+            directions.Add(0);
+
             length = toAdd.GetWeight();
         }
-        public Path(Node toAdd, Path original)
+        public Path(Node toAdd, int direction, Path original)
         {
             order = new List<Node>();
             foreach (Node element in original.order)
@@ -24,10 +29,18 @@ public class FlowGrid : MonoBehaviour
             }
             order.Add(toAdd);
 
-            length = 0;
-            foreach (Node node in order)
+            directions = new List<int>();
+            foreach (int element in original.directions)
             {
-                length += node.GetWeight();
+                directions.Add(element);
+            }
+            directions.Add(direction);
+
+
+            length = 0;
+            for(int i = 0; i < order.Count; i++)
+            {
+                length += order[i].GetWeight() * (1 + directions[i] % 2 * 1);
             }
         }
 
@@ -42,6 +55,7 @@ public class FlowGrid : MonoBehaviour
         }
 
         public List<Node> order;
+        public List<int> directions;
         public float length;
     }
 
@@ -59,17 +73,24 @@ public class FlowGrid : MonoBehaviour
         //add a path based on length (not functional in this way)
         public void Add(Path toAdd)
         {
-            //int i = 0;
-            //if (paths.Count > 1)
-            //{
-            //    Debug.Log(i);
-            //    while (paths[i].length < toAdd.length && i < paths.Count)
-            //    {
-            //        i++;
-            //    }
-            //}
-            //paths.Insert(i, toAdd);
-            paths.Add(toAdd);
+            Debug.Log("count is: " + paths.Count);
+            int i = 0;
+            if (paths.Count - 1 > i)
+            {
+                while (paths[i].length < toAdd.length && i < paths.Count -1)
+                {
+                    Debug.Log("iterator is: " + i);
+                    i++;
+                }
+            }
+            if (i == paths.Count)
+            {
+                paths.Add(toAdd);
+            }
+            else
+            {
+                paths.Insert(i, toAdd);
+            }
         }
 
         //removes and returns the smallest (first) element
@@ -87,6 +108,8 @@ public class FlowGrid : MonoBehaviour
     private Vector2 size;
     [SerializeField]
     private GameObject baseNode;
+
+    private Vector2 currentPoint;
 
 
     // Start is called before the first frame update
@@ -107,7 +130,7 @@ public class FlowGrid : MonoBehaviour
             for(int c = 0; c < size.y; c++)
             {
                 graph[i, c] = Instantiate(baseNode, this.transform).GetComponent<Node>();
-                graph[i, c].transform.position = new Vector3(5 + i * 10, transform.position.y, 5 + c * 10);
+                graph[i, c].transform.position = new Vector3(5 + c * 10, transform.position.y, 5 + i * 10);
             }
         }
     }
@@ -116,6 +139,18 @@ public class FlowGrid : MonoBehaviour
     private void ConnectGrid()
     {
         for (int i = 0; i < size.x - 1; i++)
+        {
+            for (int c = 0; c < size.y - 1; c++)
+            {
+                Node temp = graph[i, c];
+                for(int j = 0; j < 8; j++)
+                {
+                    temp.SetConnection(j, null);
+                }
+            }
+        }
+
+                for (int i = 0; i < size.x - 1; i++)
         {
             for (int c = 0; c < size.y - 1; c++)
             {
@@ -164,6 +199,7 @@ public class FlowGrid : MonoBehaviour
     //set flow out from chosen node
     private void EstablishGrid(Vector2 flowPoint)
     {
+        currentPoint = flowPoint;
         //nodes explored so far
         List<Node> explored = new List<Node>();
 
@@ -190,7 +226,7 @@ public class FlowGrid : MonoBehaviour
                     Node temp = last.GetConnection(i);
                     if (!explored.Contains(temp))
                     {
-                        open.Add(new Path(temp, smallest)); ///index out of range here for list get item
+                        open.Add(new Path(temp, i, smallest)); ///index out of range here for list get item
                         temp.SetFlow(new Vector3(last.transform.position.x - temp.transform.position.x, 0, last.transform.position.z - temp.transform.position.z));
                         explored.Add(temp);
                     }
@@ -209,5 +245,36 @@ public class FlowGrid : MonoBehaviour
                 count++;
         }
         return count;
+    }
+
+    public void RefreshGrid()
+    {
+        ConnectGrid();
+        EstablishGrid(currentPoint);
+    }
+
+    public void NewFlow(Node point)
+    {
+        Vector2 temp = FindNode(point);
+        if(temp.x > -1)
+        {
+            EstablishGrid(temp);
+        }
+    }
+
+    //returns (-1, -1) if not found
+    public Vector2 FindNode(Node point)
+    {
+        for (int i = 0; i < size.x; i++)
+        {
+            for (int c = 0; c < size.y; c++)
+            {
+                if(graph[i, c] == point)
+                {
+                    return new Vector2(i, c);
+                }
+            }
+        }
+        return new Vector2(-1, -1);
     }
 }

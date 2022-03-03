@@ -6,12 +6,16 @@ public class Node : MonoBehaviour
 {
     [SerializeField]
     private Vector3 flowDirection;
-    [SerializeField]
 
+    [SerializeField]
     //even index are direct, odds are diagonal, starting with x+1 and continuing clockwise
     private Node[] connections = new Node[8];
     private bool available = true;
     private float weight = 1;
+
+
+    [SerializeField]
+    private Material active, inactive;
 
     void OnTriggerStay(Collider other)
     {
@@ -47,6 +51,20 @@ public class Node : MonoBehaviour
     public bool GetAvailable()
     {
         return available;
+    }
+
+    public void ToggleAvailable()
+    {
+        available = !available;
+        if(available)
+        {
+            transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = active;
+        }
+        else
+        {
+            transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = inactive;
+        }
+        //transform.GetChild(0).gameObject.SetActive(available);
     }
 
     public float GetWeight()
