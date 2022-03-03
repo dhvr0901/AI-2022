@@ -200,6 +200,20 @@ public class FlowGrid : MonoBehaviour
     private void EstablishGrid(Vector2 flowPoint)
     {
         currentPoint = flowPoint;
+        for (int i = 0; i < size.x - 1; i++)
+        {
+            for (int c = 0; c < size.y - 1; c++)
+            {
+                Node temp = graph[i, c];
+                    temp.SetFlow(new Vector3(0, 0, 0));
+            }
+        }
+        StopCoroutine(EstablishGrid());
+        StartCoroutine(EstablishGrid());
+        
+    }
+    private IEnumerator EstablishGrid()
+    {
         //nodes explored so far
         List<Node> explored = new List<Node>();
 
@@ -207,7 +221,7 @@ public class FlowGrid : MonoBehaviour
         int availableNow = GetAvailable();
 
         //start the open list with the point to flow to (this will be ordered from shortest to longest)
-        PathList open = new PathList(new Path(graph[(int)flowPoint.x, (int)flowPoint.y]));
+        PathList open = new PathList(new Path(graph[(int)currentPoint.x, (int)currentPoint.y]));
 
         //while not all nodes have been explored
         while (explored.Count < availableNow)
@@ -232,6 +246,7 @@ public class FlowGrid : MonoBehaviour
                     }
                 }
             }
+            yield return null;
         }
     }
 
