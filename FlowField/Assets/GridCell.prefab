@@ -119,6 +119,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  nodeRenderer: {fileID: 4707795180963320241}
+  minWeight: {r: 0.3647059, g: 0.53333336, b: 0.7254902, a: 1}
+  maxWeight: {r: 0.5566038, g: 0, b: 0, a: 1}
   active: {fileID: 2100000, guid: 33cbef64a8c14304693ddaa8bc068187, type: 2}
   inactive: {fileID: 2100000, guid: 8bed9d22fb5fcf04ebd316cb3dd190dc, type: 2}
 --- !u!65 &6590274675781151284

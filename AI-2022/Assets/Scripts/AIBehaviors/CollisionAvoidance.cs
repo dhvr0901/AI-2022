@@ -34,7 +34,7 @@ public class CollisionAvoidance : AIBehavior
     {
         Mid = Physics.Raycast(Origin, DirectionMid, out Hit, mRayDistance);
         Left = Physics.Raycast(Origin, DirectionLeft, out HitLeft, mRayDistance);
-        if(!Left)
+        if (!Left)
         {
             Left = Physics.Raycast(Origin, new Vector2(-DirectionMid.y, DirectionMid.x), out HitLeft, mRayDistance);
         }
@@ -45,25 +45,25 @@ public class CollisionAvoidance : AIBehavior
         }
 
         Vector3 temp = transform.position - lastLocation;
-        
-        if (temp.magnitude < mStallThresh*Time.deltaTime)
+
+        if (temp.magnitude < mStallThresh * Time.deltaTime)
         {
             mStallTime += Time.fixedDeltaTime;
         }
-        if(mStallTime > mStallMax)
+        if (mStallTime > mStallMax)
         {
             mStall = true;
         }
-        else if(mStallTime < 0)
+        else if (mStallTime < 0)
         {
             mStall = false;
         }
-        if(mStall)
+        if (mStall)
         {
             //fix stalling
-            if(Mid)
+            if (Mid)
             { lastClosest = Hit.point; }
-            if(Left)
+            if (Left)
             {
                 lastClosest = (lastClosest - transform.position).magnitude > (HitLeft.point - transform.position).magnitude
                       ? HitLeft.point : lastClosest;
@@ -84,9 +84,6 @@ public class CollisionAvoidance : AIBehavior
         }
 
     }
-
-    //-1 for left, 1 for right
-    float mLastAvoid = 0;
 
     public void Start()
     {

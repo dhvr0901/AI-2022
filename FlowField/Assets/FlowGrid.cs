@@ -73,13 +73,13 @@ public class FlowGrid : MonoBehaviour
         //add a path based on length (not functional in this way)
         public void Add(Path toAdd)
         {
-            Debug.Log("count is: " + paths.Count);
+            //Debug.Log("count is: " + paths.Count);
             int i = 0;
             if (paths.Count - 1 > i)
             {
                 while (paths[i].length < toAdd.length && i < paths.Count -1)
                 {
-                    Debug.Log("iterator is: " + i);
+                    //Debug.Log("iterator is: " + i);
                     i++;
                 }
             }
@@ -96,7 +96,7 @@ public class FlowGrid : MonoBehaviour
         //removes and returns the smallest (first) element
         public Path Pop()
         {
-            Path temp = paths[0];
+            Path temp = paths[0]; //index error here
             paths.RemoveAt(0);
             return temp;
         }
@@ -227,7 +227,7 @@ public class FlowGrid : MonoBehaviour
         while (explored.Count < availableNow)
         {
             //smallest open path
-            Path smallest = open.Pop();
+            Path smallest = open.Pop();  //index error here
 
             //last node in path
             Node last = smallest.order[smallest.order.Count - 1];

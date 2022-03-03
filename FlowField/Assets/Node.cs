@@ -11,11 +11,22 @@ public class Node : MonoBehaviour
     //even index are direct, odds are diagonal, starting with x+1 and continuing clockwise
     private Node[] connections = new Node[8];
     private bool available = true;
-    private float weight = 1;
+    private float weight = 20;
+
+    [SerializeField]
+    private Renderer nodeRenderer;
+    private MaterialPropertyBlock propertyBlock;
+    [SerializeField]
+    private Color minWeight, maxWeight;
 
 
     [SerializeField]
     private Material active, inactive;
+
+    private void Awake()
+    {
+        propertyBlock = new MaterialPropertyBlock();
+    }
 
     void OnTriggerStay(Collider other)
     {
@@ -70,5 +81,25 @@ public class Node : MonoBehaviour
     public float GetWeight()
     {
         return weight;
+    }
+
+    public void ScrollWeight(float scrollDelta)
+    {
+        SetWeight(Mathf.Clamp((weight + scrollDelta), 1, 20));
+    }
+    public void SetWeight(float toSet)
+    {
+        weight = toSet;
+        UpdateColor();
+    }
+
+    private void UpdateColor()
+    {
+        // Get the current value of the material properties in the renderer.
+        nodeRenderer.GetPropertyBlock(propertyBlock);
+        // Assign our new value.
+        propertyBlock.SetColor("_Color", Color.Lerp(minWeight, maxWeight, (Mathf.Sin(Time.time * 1 + 2) + 1) / 2f));
+        // Apply the edited values to the renderer.
+        nodeRenderer.SetPropertyBlock(propertyBlock);
     }
 }
