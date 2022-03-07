@@ -108,8 +108,13 @@ public class FlowGrid : MonoBehaviour
     private Vector2 size;
     [SerializeField]
     private GameObject baseNode;
+    [SerializeField]
+    private int nodesPerFrame;
+    [SerializeField]
+    private int buildSubdivisions = 1;
 
     private Vector2 currentPoint;
+    private bool inConstruction = false;
 
 
     // Start is called before the first frame update
@@ -138,24 +143,36 @@ public class FlowGrid : MonoBehaviour
     //can be used to update changes to the grid
     private void ConnectGrid()
     {
+        StopCoroutine(BuildGrid());
+        StartCoroutine(BuildGrid());
+    }
+    private IEnumerator BuildGrid()
+    {
+        //flag the establish coroutine to wait
+        inConstruction = true;
+        //reset all connections
         for (int i = 0; i < size.x - 1; i++)
         {
             for (int c = 0; c < size.y - 1; c++)
             {
                 Node temp = graph[i, c];
-                for(int j = 0; j < 8; j++)
+                for (int j = 0; j < 8; j++)
                 {
                     temp.SetConnection(j, null);
                 }
             }
         }
 
-                for (int i = 0; i < size.x - 1; i++)
+        //wait to connect until the next frame
+        yield return null;
+
+        //establish all connections
+        for (int i = 0; i < size.x - 1; i++)
         {
             for (int c = 0; c < size.y - 1; c++)
             {
                 Node temp = graph[i, c];
-                if(temp.GetAvailable())
+                if (temp.GetAvailable())
                 {
                     //plus x node
                     Node tempTwo = graph[i + 1, c];
@@ -193,7 +210,12 @@ public class FlowGrid : MonoBehaviour
                     }
                 }
             }
+            if (i == (int)size.x / buildSubdivisions)
+            {
+                yield return null;
+            }
         }
+        inConstruction = false;
     }
 
     //set flow out from chosen node
@@ -222,10 +244,16 @@ public class FlowGrid : MonoBehaviour
 
         //start the open list with the point to flow to (this will be ordered from shortest to longest)
         PathList open = new PathList(new Path(graph[(int)currentPoint.x, (int)currentPoint.y]));
+        int passes = 0;
+        while(inConstruction)
+        {
+            yield return null;
+        }
 
         //while not all nodes have been explored
         while (explored.Count < availableNow)
         {
+            
             //smallest open path
             Path smallest = open.Pop();  //index error here
 
@@ -246,7 +274,12 @@ public class FlowGrid : MonoBehaviour
                     }
                 }
             }
-            yield return null;
+            passes++;
+            if (passes == nodesPerFrame)
+            {
+                yield return null;
+                passes = 0;
+            }
         }
     }
 

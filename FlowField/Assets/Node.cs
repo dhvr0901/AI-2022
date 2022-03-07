@@ -75,6 +75,8 @@ public class Node : MonoBehaviour
         {
             transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = inactive;
         }
+
+        transform.GetChild(2).gameObject.SetActive(!available);
         //transform.GetChild(0).gameObject.SetActive(available);
     }
 
