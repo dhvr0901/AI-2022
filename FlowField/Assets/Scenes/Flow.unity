@@ -133,6 +133,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TeamSpawner (True)
       objectReference: {fileID: 0}
+    - target: {fileID: 3168748464814741136, guid: a9c603bddf4d9c44ebd7d10f4d867dbe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3447214943537224853, guid: a9c603bddf4d9c44ebd7d10f4d867dbe,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -283,7 +288,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346236008}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 95, y: 174.7, z: 101}
+  m_LocalPosition: {x: 150, y: 300, z: 200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -613,6 +618,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TeamSpawner (False)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3168748464814741136, guid: a9c603bddf4d9c44ebd7d10f4d867dbe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3447214943537224853, guid: a9c603bddf4d9c44ebd7d10f4d867dbe,
         type: 3}
