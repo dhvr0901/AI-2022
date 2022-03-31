@@ -3,6 +3,15 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _Color0("Color 0", Color) = (0, 0, 0, 1)
+
+        _Color1("Color 1", Color) = (0, .9, .2, 1)
+
+        _Color2("Color 2", Color) = (.9, 1, .3, 1)
+
+        _Color3("Color 3", Color) = (.9, .7, .1, 1)
+
+        _Color4("Color 4", Color) = (10, 0, 0, 1)
     }
     SubShader
     {
@@ -51,13 +60,19 @@
             float _Hits[3 * 32];
             int _HitCount = 0;
 
+            float4 _Color0;
+            float4 _Color1;
+            float4 _Color2;
+            float4 _Color3;
+            float4 _Color4;
+
             void init()
             {
-                colors[0] = float4(0, 0, 0, 0);
-                colors[1] = float4(0, .9, .2, 1);
-                colors[2] = float4(.9, 1, .3, 1);
-                colors[3] = float4(.9, .7, .1, 1);
-                colors[4] = float4(1, 0, 0, 1);
+                colors[0] = _Color0;
+                colors[1] = _Color1;
+                colors[2] = _Color2;
+                colors[3] = _Color3;
+                colors[4] = _Color4;
 
                 pointranges[0] = 0;
                 pointranges[1] = 0.25;
@@ -68,7 +83,11 @@
                 _HitCount = 1;
                 _Hits[0] = 0;
                 _Hits[1] = 0;
-                _Hits[2] = 4;
+                _Hits[2] = 0;
+
+                _Hits[3] = 0;
+                _Hits[4] = 0;
+                _Hits[5] = 0;
             }
 
             float distsq(float2 a, float2 b)
@@ -120,7 +139,7 @@
                 uv = uv * 4.0 - float2(2.0, 2.0); //change uv coordinate range to -2 - 2;
 
                 float totalWeight = 0;
-                for (float i = 0; i < _HitCount; i++)
+                for (float i = 0; i < 32; i++)
                 {
                     float2 work_pt = float2(_Hits[i * 3 + 0], _Hits[i * 3 + 1]);
                     float pt_intensity = _Hits[i * 3 + 2];
