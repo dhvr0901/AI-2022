@@ -7,9 +7,13 @@ public class Manipulator : MonoBehaviour
     [SerializeField]
     private FlowGrid grid;
 
+    [SerializeField]
+    private GameObject wall;
+
     // Update is called once per frame
     void Update()
     {
+        
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -20,8 +24,14 @@ public class Manipulator : MonoBehaviour
                 if (hit.transform.gameObject.tag == "Node")
                 {
                     Node toManip = hit.transform.gameObject.GetComponent<Node>();
-                    toManip.ToggleAvailable();
-                    grid.RefreshGrid();
+                    //toManip.ToggleAvailable();
+                    if (toManip.GetAvailable())
+                    {
+                        GameObject temp = Instantiate(wall);
+                        temp.transform.position = toManip.transform.position;
+
+                        grid.RefreshGrid();
+                    }
                 }
             }
         }
@@ -40,5 +50,6 @@ public class Manipulator : MonoBehaviour
                 }
             }
         }
+        
     }
 }

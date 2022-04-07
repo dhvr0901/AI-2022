@@ -2,6 +2,7 @@
 {
     Properties
     {
+        
         _MainTex ("Texture", 2D) = "white" {}
         _Color0("Color 0", Color) = (0, 0, 0, 1)
 
@@ -81,13 +82,6 @@
                 pointranges[4] = 1.0;
 
                 _HitCount = 1;
-                _Hits[0] = 0;
-                _Hits[1] = 0;
-                _Hits[2] = 0;
-
-                _Hits[3] = 0;
-                _Hits[4] = 0;
-                _Hits[5] = 0;
             }
 
             float distsq(float2 a, float2 b)

@@ -96,9 +96,13 @@ public class FlowGrid : MonoBehaviour
         //removes and returns the smallest (first) element
         public Path Pop()
         {
-            Path temp = paths[0]; //index error here
-            paths.RemoveAt(0);
-            return temp;
+            if (0 < paths.Count)
+            {
+                Path temp = paths[0]; //index error here
+                paths.RemoveAt(0);
+                return temp;
+            }
+            return new Path();
         }
 
     }
@@ -273,7 +277,8 @@ public class FlowGrid : MonoBehaviour
             Path smallest = open.Pop();  //index error here
 
             //last node in path
-            Node last = smallest.order[smallest.order.Count - 1];
+            Node last;
+            last = smallest.order.Count - 1 >= 0 ? smallest.order[smallest.order.Count - 1] : new Node();
 
             //for every valid connection in last
             for (int i = 0; i < 8; i++)

@@ -118,7 +118,6 @@ GameObject:
   - component: {fileID: 4707795180593013526}
   - component: {fileID: 4707795180593013525}
   - component: {fileID: 6590274675781151284}
-  - component: {fileID: 3624318647431662052}
   m_Layer: 0
   m_Name: GridCell
   m_TagString: Node
@@ -183,18 +182,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 1, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3624318647431662052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4707795180593013527}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46376ecedb360e84daa538811a2d38dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4707795180963320243
 GameObject:
   m_ObjectHideFlags: 0

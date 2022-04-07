@@ -11,6 +11,7 @@ public class Node : MonoBehaviour
     //even index are direct, odds are diagonal, starting with x+1 and continuing clockwise
     private Node[] connections = new Node[8];
     private bool available = true;
+    [SerializeField]
     private float weight = 20;
 
     [SerializeField]
@@ -36,7 +37,7 @@ public class Node : MonoBehaviour
         }
         if (other.tag == "Obstacle")
         {
-            Debug.Log("a thingus has occured");
+            //Debug.Log("a thingus has occured");
             available = false;
             transform.GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = inactive;
             transform.GetChild(2).gameObject.SetActive(!available);
