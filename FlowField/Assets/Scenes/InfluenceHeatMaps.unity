@@ -581,7 +581,7 @@ MonoBehaviour:
     type: 3}
   nodesPerFrame: 5
   buildSubdivisions: 2
-  heatDecayFactor: 0.3
+  heuristicFactor: 40
 --- !u!4 &553124037
 Transform:
   m_ObjectHideFlags: 0

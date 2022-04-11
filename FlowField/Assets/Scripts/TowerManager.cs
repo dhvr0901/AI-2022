@@ -117,8 +117,9 @@ public class TowerManager : MonoBehaviour
 
 
                 closestA.GetComponent<AgentCombat>().TakeDamage(Towers[chosenTower].damage);
-
+                Debug.DrawLine(Visuals[chosenTower].transform.position, closestA.transform.position, Color.black, 0.35f);
                 firingTimer = Towers[chosenTower].GetFireTimer();
+
 
             }
         }

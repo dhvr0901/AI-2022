@@ -44,12 +44,12 @@ public class FlowGrid : MonoBehaviour
             }
         }
 
-        float getLength()
+        float getLength(FlowGrid fg)
         {
             float total = 0;
             foreach(Node node in order)
             {
-                total += node.GetWeight();
+                total += node.GetWeight() + fg.GetHeuristic(node) * fg.heuristicFactor;
             }
             return total;
         }
@@ -122,7 +122,7 @@ public class FlowGrid : MonoBehaviour
 
     [HeaderAttribute("Heat Settings")]
     [SerializeField]
-    private float heatDecayFactor;
+    private float heuristicFactor = 0.5f;
 
 
     // Start is called before the first frame update
@@ -134,12 +134,12 @@ public class FlowGrid : MonoBehaviour
         EstablishGrid(new Vector2(0, 0));
     }
 
-    void FixedUpdate()
+    private float GetHeuristic(Node node)
     {
-       
+        return (currentPoint - FindNode(node)).magnitude;
     }
 
-
+    
     //instantiate a grid of nodes
     private void PopulateGrid()
     {

@@ -10,18 +10,15 @@ public class TowerType : ScriptableObject
     [SerializeField]
     private float fireRate;
 
-    private float fireTimer;
-
     [HideInInspector]
     public float BonusInfluenceRange = 20;
 
     private void Awake()
     {
-        fireTimer = 1.0f / fireTimer;
     }
 
     public float GetFireTimer()
     {
-        return fireTimer;
+        return 1.0f / fireRate;
     }
 }

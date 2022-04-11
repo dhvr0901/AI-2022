@@ -23,7 +23,7 @@ public class Node : MonoBehaviour
     [SerializeField]
     private Color minCol, maxCol;
 
-    private int WPP = 15;
+    private int WPP = 7;
 
     [SerializeField]
     private Material active, inactive;

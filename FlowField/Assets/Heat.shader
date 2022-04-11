@@ -86,8 +86,8 @@
 
                 float distsq(float2 a, float2 b)
                 {
-                    float area_of_effect_size = 0.2f;
-                    float d = pow(max(0.0,1.0 - distance(a, b) / area_of_effect_size), 2)/4;
+                    float area_of_effect_size = 0.4f;
+                    float d = pow(max(0.0,1.0 - distance(a, b) / area_of_effect_size), 2)/8;
                     return d;
                 }
 
