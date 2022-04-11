@@ -12,26 +12,37 @@ public class Node : MonoBehaviour
     private Node[] connections = new Node[8];
     private bool available = true;
     [SerializeField]
-    private float weight = 20;
+    private float weight = 0;
+    private float maxWeight = 255;
+    [SerializeField]
+    private int numberPings = 0;
 
     [SerializeField]
-    private Renderer nodeRenderer;
-    private MaterialPropertyBlock propertyBlock;
+    private MeshRenderer mRenderer;
+    private Material mMaterial;
     [SerializeField]
-    private Color minWeight, maxWeight;
+    private Color minCol, maxCol;
 
+    private int WPP = 15;
 
     [SerializeField]
     private Material active, inactive;
 
-    private void Awake()
+    private void Start()
     {
-        propertyBlock = new MaterialPropertyBlock();
+        mMaterial = mRenderer.material;
+        UpdateColor();
+    }
+
+    IEnumerator ColorAfter(float time)
+    {
+        yield return new WaitForSeconds(time);
+        UpdateColor();
     }
 
     void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Agent")
+        if (other.tag == "Agent" && available)
         {
             other.GetComponent<AgentMovement>().SetDirection(flowDirection);
         }
@@ -100,7 +111,7 @@ public class Node : MonoBehaviour
 
     public float GetWeight()
     {
-        return weight;
+        return Mathf.Clamp(weight + (WPP * numberPings), 1, 250);
     }
 
     public void ScrollWeight(float scrollDelta)
@@ -115,11 +126,32 @@ public class Node : MonoBehaviour
 
     private void UpdateColor()
     {
-        // Get the current value of the material properties in the renderer.
-        nodeRenderer.GetPropertyBlock(propertyBlock);
-        // Assign our new value.
-        propertyBlock.SetColor("_Color", Color.Lerp(minWeight, maxWeight, (Mathf.Sin(Time.time * 1 + 2) + 1) / 2f));
-        // Apply the edited values to the renderer.
-        nodeRenderer.SetPropertyBlock(propertyBlock);
+        
+        float currentWeight = Mathf.Clamp(weight + (WPP * numberPings), 1, 255) / maxWeight;
+        //Debug.Log("Updating Color " + currentWeight);
+
+        float[] colVals = new float[3];
+        colVals[0] = Mathf.Lerp(minCol.r, maxCol.r, currentWeight);
+        colVals[1] = Mathf.Lerp(minCol.g, maxCol.g, currentWeight);
+        colVals[2] = Mathf.Lerp(minCol.b, maxCol.b, currentWeight);
+
+
+
+        //Debug.Log("Color Chosen: " + colVals[0] + ", " + colVals[1] + ", " + colVals[2]);
+
+        mMaterial.SetFloat("cVal0", colVals[0]);
+        mMaterial.SetFloat("cVal1", colVals[1]);
+        mMaterial.SetFloat("cVal2", colVals[2]);
+    }
+
+    public void AddPing()
+    {
+        numberPings++;
+        UpdateColor();
+    }
+    public void RemovePing()
+    {
+        numberPings--;
+        UpdateColor();
     }
 }

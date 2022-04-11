@@ -9,7 +9,7 @@ public class Destination : MonoBehaviour
 
     IEnumerator DelayedAsk()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(3f);
 
         Ray ray = new Ray(transform.position, new Vector3(0, -1, 0));
         RaycastHit hit;
@@ -22,7 +22,6 @@ public class Destination : MonoBehaviour
                 grid.NewFlow(toManip);
             }
         }
-
     }
 
     // Start is called before the first frame update

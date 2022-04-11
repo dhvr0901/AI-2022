@@ -136,13 +136,7 @@ public class FlowGrid : MonoBehaviour
 
     void FixedUpdate()
     {
-        for(int i = 0; i < size.x; i++)
-        {
-            for(int j = 0; j<size.y; j++)
-            {
-                graph[i, j].GetComponent<NodeHeat>().DecayHeat(heatDecayFactor);
-            }
-        }
+       
     }
 
 
@@ -249,6 +243,7 @@ public class FlowGrid : MonoBehaviour
                     temp.SetFlow(new Vector3(0, 0, 0));
             }
         }
+        StopCoroutine(EstablishGrid());
         StopCoroutine(EstablishGrid());
         StartCoroutine(EstablishGrid());
         

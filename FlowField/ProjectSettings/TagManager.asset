@@ -7,6 +7,7 @@ TagManager:
   - Agent
   - Node
   - Obstacle
+  - Core
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - NodeLayer
   - 
   - 
   - 

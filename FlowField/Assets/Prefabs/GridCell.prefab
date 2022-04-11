@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1147913249334132556}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: DirectionMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5171477561407692867}
   - component: {fileID: 8384859916844284616}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: Barrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4707795180364116310}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: Visualization
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 4707795180593013526}
   - component: {fileID: 4707795180593013525}
   - component: {fileID: 6590274675781151284}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: GridCell
   m_TagString: Node
   m_Icon: {fileID: 0}
@@ -164,9 +164,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  nodeRenderer: {fileID: 4707795180963320241}
-  minWeight: {r: 0.3647059, g: 0.53333336, b: 0.7254902, a: 1}
-  maxWeight: {r: 0.5566038, g: 0, b: 0, a: 1}
+  weight: 1
+  numberPings: 0
+  mRenderer: {fileID: 4707795180963320241}
+  minCol: {r: 0, g: 1, b: 0, a: 1}
+  maxCol: {r: 1, g: 0, b: 0, a: 1}
   active: {fileID: 2100000, guid: 33cbef64a8c14304693ddaa8bc068187, type: 2}
   inactive: {fileID: 2100000, guid: 8bed9d22fb5fcf04ebd316cb3dd190dc, type: 2}
 --- !u!65 &6590274675781151284
@@ -193,7 +195,7 @@ GameObject:
   - component: {fileID: 4707795180963320242}
   - component: {fileID: 4707795180963320240}
   - component: {fileID: 4707795180963320241}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: CellArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -272,7 +274,7 @@ GameObject:
   - component: {fileID: 4707795180966583444}
   - component: {fileID: 4707795180966583442}
   - component: {fileID: 4707795180966583443}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: CenterMarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,7 +353,7 @@ GameObject:
   - component: {fileID: 7630957368956530992}
   - component: {fileID: 7100244522824344970}
   - component: {fileID: 304645163517158575}
-  m_Layer: 2
+  m_Layer: 11
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -60,4 +60,9 @@ public class AgentCombat : MonoBehaviour
         opponent.health -= damage;
         timer = timerMax;
     }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+    }
 }

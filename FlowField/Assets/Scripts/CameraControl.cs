@@ -48,8 +48,8 @@ public class CameraControl : MonoBehaviour
         //convert to percentage of threshold
         crossover.y = crossover.y / moveThreshold.y;
 
-        gameObject.transform.position = new Vector3(transform.position.x + (maxVel * Time.deltaTime * crossover.x), transform.position.y, transform.position.z);
-        gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + (maxVel * Time.deltaTime * crossover.y));
+        gameObject.transform.position = new Vector3(Mathf.Clamp(transform.position.x + (maxVel * Time.deltaTime * crossover.x), 10, 290), transform.position.y, transform.position.z);
+        gameObject.transform.position = new Vector3(transform.position.x, transform.position.y, Mathf.Clamp(transform.position.z + (maxVel * Time.deltaTime * crossover.y), 10, 290));
 
         //zoom based on scroll
         float scroll = Input.mouseScrollDelta.y; 

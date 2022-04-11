@@ -10,6 +10,14 @@ public class Manipulator : MonoBehaviour
     [SerializeField]
     private GameObject wall;
 
+    [SerializeField]
+    private GameObject heat;
+
+    [SerializeField]
+    private LayerMask NodeMask;
+
+    private float timer = 20, refreshtime = 20;
+
     // Update is called once per frame
     void Update()
     {
@@ -18,7 +26,7 @@ public class Manipulator : MonoBehaviour
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, 1000, NodeMask, QueryTriggerInteraction.Collide))
             {
                 //toggle node   
                 if (hit.transform.gameObject.tag == "Node")
@@ -36,6 +44,7 @@ public class Manipulator : MonoBehaviour
             }
         }
 
+        
         if (Input.GetMouseButtonDown(1))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -43,13 +52,28 @@ public class Manipulator : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 //toggle node   
-                if (hit.transform.gameObject.tag == "Node")
+                if (hit.transform.gameObject.tag == "Obstacle")
                 {
-                    Node toManip = hit.transform.gameObject.GetComponent<Node>();
-                    grid.NewFlow(toManip);
+                    hit.transform.GetComponent<TowerManager>().CycleTower();
                 }
             }
         }
-        
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            heat.SetActive(true);
+        }
+        if(Input.GetKeyUp(KeyCode.H))
+        {
+            heat.SetActive(false);
+        }
+
+        timer -= Time.deltaTime;
+        if(timer <0)
+        {
+            timer = refreshtime;
+            grid.RefreshGrid();
+        }
+
     }
 }

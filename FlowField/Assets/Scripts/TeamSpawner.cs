@@ -26,7 +26,7 @@ public class TeamSpawner : MonoBehaviour
     private void SpawnAgent()
     {
         AgentCombat temp = Instantiate(agent).GetComponent<AgentCombat>();
-        temp.transform.position = new Vector3(transform.position.x, 1.5f, Random.Range(1, 399));
+        temp.transform.position = new Vector3(transform.position.x, 2f, Random.Range(1, 399));
         temp.Initialize(team);
     }
 }
